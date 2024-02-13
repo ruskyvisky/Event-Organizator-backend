@@ -60,4 +60,45 @@ public class EventService {
         eventRepo.deleteById(id);
         return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).build());
     }
+
+    public ResponseEntity<ApiResponse> getSingleEvent(Long id) {
+Optional<Event> existingEvent = eventRepo.findById(id);
+        if(existingEvent.isEmpty()){
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message(Message.EVENT_NOT_FOUND.getDesc()).build());
+        }
+        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc())
+                .data(new EventResponse(existingEvent.get()))
+                .build());
+    }
+
+
+    public ResponseEntity<ApiResponse> updateEvent(Long id, NewEventRequest newEventRequest) {
+        Optional<Event> existingEvent = eventRepo.findById(id);
+        if(existingEvent.isEmpty()){
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message(Message.EVENT_NOT_FOUND.getDesc()).build());
+        }
+        Event event = existingEvent.get();
+        event.setName(newEventRequest.getName());
+        event.setDescription(newEventRequest.getDescription());
+        event.setLocation(newEventRequest.getLocation());
+        event.setPublic(newEventRequest.isPublic());
+        Event savedEvent = eventRepo.save(event);
+        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(savedEvent).build());
+    }
+
+
+    public ResponseEntity<ApiResponse> joinEvent(Long id) {
+        Optional<Event> existingEvent = eventRepo.findById(id);
+        if(existingEvent.isEmpty()){
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message(Message.EVENT_NOT_FOUND.getDesc()).build());
+        }
+        Event event = existingEvent.get();
+        User user = userRepo.findById(1L).orElse(null); // burası değişecek
+        if(event.getParticipants().contains(user)){
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message("Message.ALREADY_JOINED.getDesc()").build());
+        }
+        event.getParticipants().add(user);
+        Event savedEvent = eventRepo.save(event);
+        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(savedEvent).build());
+    }
 }
