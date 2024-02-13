@@ -10,7 +10,14 @@ public enum Message {
     UNAUTHORIZED("UNAUTHORIZED", "Yetkisiz giriş."),
     NOT_FOUND("NOT_FOUND", "Bulunamadı."),
     SYSTEM_ERROR("SYSTEM_ERROR", "Sistem hatası."),
-    BAD_CREDENTIALS("BAD_CREDENTIALS", "E-posta adresi veya şifre hatalı.");
+    BAD_CREDENTIALS("BAD_CREDENTIALS", "E-posta adresi veya şifre hatalı."),
+
+    /** USER */
+    USER_NOT_FOUND("USER_NOT_FOUND", "Kullanıcı bulunamadı."),
+
+    /** EVENT */
+    EVENT_NOT_FOUND("EVENT_NOT_FOUND", "Etkinlik bulunamadı.");
+
 
     private final String text;
     @Getter
