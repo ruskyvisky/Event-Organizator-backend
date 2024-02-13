@@ -7,12 +7,13 @@ import com.eventorganizator.Event.Organizator.repositories.EventRepository;
 import com.eventorganizator.Event.Organizator.repositories.UserRepository;
 import com.eventorganizator.Event.Organizator.requests.NewEventRequest;
 import com.eventorganizator.Event.Organizator.response.ApiResponse;
+import com.eventorganizator.Event.Organizator.response.EventResponse;
 import com.eventorganizator.Event.Organizator.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 @Service
 public class EventService {
 
@@ -42,7 +43,12 @@ public class EventService {
 
     }
     public ResponseEntity<ApiResponse> getAllEvents(){
-        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(eventRepo.findAll()).build());
+
+        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc())
+                .data(eventRepo.findAll().stream()
+                        .map(EventResponse::new)
+                        .collect(Collectors.toList()))
+                .build());
     }
 
 

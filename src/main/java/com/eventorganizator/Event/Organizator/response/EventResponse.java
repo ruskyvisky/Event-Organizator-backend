@@ -1,24 +1,29 @@
 package com.eventorganizator.Event.Organizator.response;
 
+import com.eventorganizator.Event.Organizator.entities.Event;
+import com.eventorganizator.Event.Organizator.entities.User;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class EventResponse {
-    long id;
-    String name;
-    String description;
-    String date;
-    String location;
-    String creator;
-    boolean isPublic;
+    private long id;
+    private String name;
+    private String description;
+    private String date;
+    private String location;
+    private String creator;
+    private List<String> participants;
+    private boolean isPublic;
 
-    public EventResponse(long id, String name, String description, String date, String location, String creator, boolean isPublic) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.date = date;
-        this.location = location;
-        this.creator = creator;
-        this.isPublic = isPublic;
+    public EventResponse(Event event) {
+        this.id = event.getId();
+        this.name = event.getName();
+        this.description = event.getDescription();
+        this.location = event.getLocation();
+        this.creator = event.getCreator().getUsername(); // veya başka bir özellik alarak kullanabilirsiniz
+        this.isPublic = event.isPublic();
+        this.participants = event.getParticipants().stream().map(User::getUsername).toList();
     }
 }
