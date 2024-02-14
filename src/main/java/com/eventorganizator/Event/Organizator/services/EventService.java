@@ -95,11 +95,11 @@ Optional<Event> existingEvent = eventRepo.findById(id);
         Event event = existingEvent.get();
         User user = userRepo.findById(1L).orElse(null); // burası değişecek
         if(event.getParticipants().contains(user)){
-            return ResponseEntity.badRequest().body(ApiResponse.builder().message("Message.ALREADY_JOINED.getDesc()").build());
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message(Message.EVENT_ALREADY_JOINED.getDesc()).build());
         }
         event.getParticipants().add(user);
         Event savedEvent = eventRepo.save(event);
-        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(savedEvent).build());
+        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(new EventResponse(savedEvent)).build());
     }
 
     public ResponseEntity<ApiResponse> getEventParticipants(Long id) {
@@ -111,5 +111,20 @@ Optional<Event> existingEvent = eventRepo.findById(id);
         return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc())
                 .data(event.getParticipants().stream().map(UserResponse::new).collect(Collectors.toList()))
                 .build());
+    }
+
+    public ResponseEntity<ApiResponse> leaveEvent(Long id) {
+        Optional<Event> existingEvent = eventRepo.findById(id);
+        if(existingEvent.isEmpty()){
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message(Message.EVENT_NOT_FOUND.getDesc()).build());
+        }
+        Event event = existingEvent.get();
+        User user = userRepo.findById(1L).orElse(null); // burası değişecek
+        if(!event.getParticipants().contains(user)){
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message("Message.NOT_JOINED.getDesc()").build());
+        }
+        event.getParticipants().remove(user);
+        Event savedEvent = eventRepo.save(event);
+        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(savedEvent).build());
     }
 }

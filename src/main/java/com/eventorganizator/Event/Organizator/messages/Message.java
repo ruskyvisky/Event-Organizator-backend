@@ -16,7 +16,8 @@ public enum Message {
     USER_NOT_FOUND("USER_NOT_FOUND", "Kullanıcı bulunamadı."),
 
     /** EVENT */
-    EVENT_NOT_FOUND("EVENT_NOT_FOUND", "Etkinlik bulunamadı.");
+    EVENT_NOT_FOUND("EVENT_NOT_FOUND", "Etkinlik bulunamadı."),
+    EVENT_ALREADY_JOINED("EVENT_ALREADY_JOINED", "Etkinliğe zaten katıldınız.");
 
 
     private final String text;

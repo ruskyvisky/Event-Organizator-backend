@@ -45,7 +45,10 @@ public class EventController {
         return eventService.joinEvent(id);
     }
 
-
+    @PostMapping("/leave/{id}")
+    public ResponseEntity<ApiResponse> leaveEvent(@PathVariable Long id){
+        return eventService.leaveEvent(id);
+    }
 
     @GetMapping("/participants/{id}")
     public ResponseEntity<ApiResponse> getParticipants(@PathVariable Long id){
