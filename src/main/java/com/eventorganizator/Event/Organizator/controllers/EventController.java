@@ -44,4 +44,12 @@ public class EventController {
     public ResponseEntity<ApiResponse> joinEvent(@PathVariable Long id){
         return eventService.joinEvent(id);
     }
+
+
+
+    @GetMapping("/participants/{id}")
+    public ResponseEntity<ApiResponse> getParticipants(@PathVariable Long id){
+        return eventService.getEventParticipants(id);
+    }
+
 }

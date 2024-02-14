@@ -101,4 +101,15 @@ Optional<Event> existingEvent = eventRepo.findById(id);
         Event savedEvent = eventRepo.save(event);
         return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(savedEvent).build());
     }
+
+    public ResponseEntity<ApiResponse> getEventParticipants(Long id) {
+        Optional<Event> existingEvent = eventRepo.findById(id);
+        if(existingEvent.isEmpty()){
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message(Message.EVENT_NOT_FOUND.getDesc()).build());
+        }
+        Event event = existingEvent.get();
+        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc())
+                .data(event.getParticipants().stream().map(UserResponse::new).collect(Collectors.toList()))
+                .build());
+    }
 }
