@@ -17,7 +17,12 @@ public enum Message {
 
     /** EVENT */
     EVENT_NOT_FOUND("EVENT_NOT_FOUND", "Etkinlik bulunamadı."),
-    EVENT_ALREADY_JOINED("EVENT_ALREADY_JOINED", "Etkinliğe zaten katıldınız.");
+    EVENT_ALREADY_JOINED("EVENT_ALREADY_JOINED", "Etkinliğe zaten katıldınız."),
+
+
+    /** COMMENT */
+    COMMENT_NOT_FOUND("COMMENT_NOT_FOUND", "Yorum bulunamadı."),
+    COMMENTS_IS_EMPTY("COMMENTS_IS_EMPTY", "Bu etkinlikte yorum bulunmamaktadır.");
 
 
     private final String text;

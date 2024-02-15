@@ -36,6 +36,7 @@ public class EventService {
         event.setDescription(newEventReq.getDescription());
         event.setLocation(newEventReq.getLocation());
         event.setCreator(user);
+        event.setDate(newEventReq.getDate());
         event.setPublic(newEventReq.isPublic());
        Event savedEvent =  eventRepo.save(event);
         return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(savedEvent).build());
