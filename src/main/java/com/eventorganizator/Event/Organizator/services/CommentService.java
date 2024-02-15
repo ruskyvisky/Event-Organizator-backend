@@ -42,6 +42,8 @@ public class CommentService {
         comment.setText(commentRequest.getText());
         comment.setUser(user);
         comment.setEvent(event);
+        event.getComments().add(comment);
+
         commentRepo.save(comment);
         return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(comment).build());
 

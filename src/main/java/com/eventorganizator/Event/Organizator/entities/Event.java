@@ -23,15 +23,14 @@ public class Event {
     private String description;
     private Date date;
     private String location;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_id",nullable = false)
     @JsonIgnore
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User creator;
     private boolean isPublic;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<User> participants;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
 

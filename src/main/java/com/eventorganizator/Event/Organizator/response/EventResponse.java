@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class EventResponse {
@@ -17,7 +18,7 @@ public class EventResponse {
     private String location;
     private String creator;
     private List<String> participants;
-    private List<String> comments;
+    private List<CommentResponse> comments;
     private boolean isPublic;
 
     public EventResponse(Event event) {
@@ -26,8 +27,11 @@ public class EventResponse {
         this.description = event.getDescription();
         this.location = event.getLocation();
         this.date = event.getDate();
-        this.comments = event.getComments().stream().map(Comment::getText).toList();
-        this.creator = event.getCreator().getUsername(); // veya başka bir özellik alarak kullanabilirsiniz
+        this.comments = event.getComments()
+                .stream()
+                .map(CommentResponse::new)
+                .toList();
+        this.creator = event.getCreator().getUsername();
         this.isPublic = event.isPublic();
         this.participants = event.getParticipants().stream().map(User::getUsername).toList();
     }

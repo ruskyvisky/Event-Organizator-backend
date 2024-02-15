@@ -24,8 +24,8 @@ public class Comment {
     Event event;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable=false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     User user;
     @Column(columnDefinition="text")
     String text;

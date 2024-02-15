@@ -122,7 +122,7 @@ Optional<Event> existingEvent = eventRepo.findById(id);
         Event event = existingEvent.get();
         User user = userRepo.findById(1L).orElse(null); // burası değişecek
         if(!event.getParticipants().contains(user)){
-            return ResponseEntity.badRequest().body(ApiResponse.builder().message("Message.NOT_JOINED.getDesc()").build());
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message(Message.NOT_JOINED.getDesc()).build());
         }
         event.getParticipants().remove(user);
         Event savedEvent = eventRepo.save(event);
