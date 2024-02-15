@@ -9,8 +9,11 @@ import com.eventorganizator.Event.Organizator.repositories.EventRepository;
 import com.eventorganizator.Event.Organizator.repositories.UserRepository;
 import com.eventorganizator.Event.Organizator.requests.NewCommentRequest;
 import com.eventorganizator.Event.Organizator.response.ApiResponse;
+import com.eventorganizator.Event.Organizator.response.CommentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -45,12 +48,22 @@ public class CommentService {
 
     }
 
-    public ResponseEntity<ApiResponse> getComment(Long id) {
-        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(commentRepo.findById(id).orElse(null)).build());
+    public ResponseEntity<ApiResponse> getSingleComment(Long id) {
+        Comment comment = commentRepo.findById(id).orElse(null);
+        if(comment == null){
+            return ResponseEntity.badRequest().body(ApiResponse.builder().message(Message.COMMENT_NOT_FOUND.getDesc()).build());
+        }
+        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(new CommentResponse(comment)).build());
     }
 
     public ResponseEntity<ApiResponse> getAllComments() {
-        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(commentRepo.findAll()).build());
+        List<Comment> allComments = commentRepo.findAll();
+        if(allComments.isEmpty()){
+            return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(Message.COMMENTS_IS_EMPTY.getDesc()).build());
+        }
+        return ResponseEntity.ok(ApiResponse.builder()
+                .message(Message.SUCCESS.getDesc())
+                .data(allComments.stream().map(CommentResponse::new).toList()).build());
     }
 
     public ResponseEntity<ApiResponse> deleteComment(Long id) {
@@ -73,6 +86,12 @@ public class CommentService {
         if(event == null){
             return ResponseEntity.badRequest().body(ApiResponse.builder().message(Message.EVENT_NOT_FOUND.getDesc()).build());
         }
-        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(commentRepo.findAllByEvent(event)).build());
+        List<Comment> allComments = commentRepo.findAllByEvent(event);
+        if(allComments.isEmpty()){
+            return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(Message.COMMENTS_IS_EMPTY).build());
+        }
+        return ResponseEntity.ok(ApiResponse.builder().message(Message.SUCCESS.getDesc()).data(
+                allComments.stream().map(CommentResponse::new).toList()
+        ).build());
     }
 }

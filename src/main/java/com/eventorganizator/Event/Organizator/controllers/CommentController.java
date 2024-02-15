@@ -33,7 +33,7 @@ public class CommentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getComment(@PathVariable Long id){
-        return commentService.getComment(id);
+        return commentService.getSingleComment(id);
     }
 
     @PutMapping("/{id}")

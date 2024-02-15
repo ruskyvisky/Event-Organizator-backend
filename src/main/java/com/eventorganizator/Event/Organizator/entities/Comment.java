@@ -3,6 +3,7 @@ package com.eventorganizator.Event.Organizator.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -19,16 +20,18 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="event_id", nullable=false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-            @JsonIgnore
+    @JsonIgnore
     Event event;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable=false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-            @JsonIgnore
+    @JsonIgnore
     User user;
     @Column(columnDefinition="text")
     String text;
-    Timestamp createDate;
+    @Column(name = "create_date")
+    @CreationTimestamp
+    private Date createDate;
 
 
 }
