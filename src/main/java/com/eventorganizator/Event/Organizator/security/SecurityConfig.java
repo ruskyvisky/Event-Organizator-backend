@@ -40,10 +40,10 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(x ->
-                        x.requestMatchers( "/auth/register/**", "/auth/login/**","/").permitAll()
-
+                        x.requestMatchers( "/auth/register/**", "/auth/login/**").permitAll()
                 )
-
+                .authorizeHttpRequests(x ->
+                        x.anyRequest().authenticated())
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
