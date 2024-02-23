@@ -15,6 +15,8 @@ public enum Message {
     /** USER */
     USER_NOT_FOUND("USER_NOT_FOUND", "Kullanıcı bulunamadı."),
 
+    USERNAME_EXISTS("USERNAME_EXISTS", "Kullanıcı adı zaten mevcut."),
+
     /** EVENT */
     EVENT_NOT_FOUND("EVENT_NOT_FOUND", "Etkinlik bulunamadı."),
     EVENT_ALREADY_JOINED("EVENT_ALREADY_JOINED", "Etkinliğe zaten katıldınız."),

@@ -1,6 +1,8 @@
 package com.eventorganizator.Event.Organizator.controllers;
 
 import com.eventorganizator.Event.Organizator.entities.User;
+import com.eventorganizator.Event.Organizator.requests.AuthRequest;
+import com.eventorganizator.Event.Organizator.requests.RegisterRequest;
 import com.eventorganizator.Event.Organizator.response.ApiResponse;
 import com.eventorganizator.Event.Organizator.response.UserResponse;
 import com.eventorganizator.Event.Organizator.services.UserService;
@@ -17,14 +19,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse> registerUser(@RequestBody User user) {
 
-        return userService.registerUser(user);
-    }
 
     @PostMapping("/login")
-    public String loginUser() {
+    public String loginUser(@RequestBody AuthRequest authRequest) {
         return "User logged in";
     }
 
